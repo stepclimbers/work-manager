@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "webpack-dev-server --mode development --open"
+    "build": "npm run lint && webpack",
+    "start": "npm run lint && webpack-dev-server --mode development --open",
+    "lint": ".\\node_modules\\.bin\\eslint \"./**/*.{js,ts,tsx}\"",
+    "lint:no-warnings": "npm run lint -- --quiet"
   },
   "author": "",
   "license": "ISC",
