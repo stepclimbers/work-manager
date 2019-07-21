@@ -13,7 +13,7 @@ const config: webpack.Configuration = {
   mode: "development",
   output: {
     path: path.resolve("./build"), // without path.resolve, default url is absolute
-    // publicPath: "/build",
+    publicPath: "/build",
     filename: "bundle.js"
     // libraryTarget: "umd"
   },
