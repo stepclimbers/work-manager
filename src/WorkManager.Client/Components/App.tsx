@@ -1,24 +1,29 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-class App extends Component<any, any> {
-  constructor(props: any) {
-    super(props);
+interface IAppProps {}
+interface IAppState {
+    data: string[];
+}
 
-    this.state = {
-      data: null,
-    };
-  }
+class App extends Component<Readonly<IAppProps>, IAppState> {
+    public constructor(props: Readonly<IAppProps>) {
+        super(props);
 
-  componentDidMount() {
-    fetch("http://localhost:52257/api/values")
-      .then(response => response.json())
-      .then(data => this.setState({ data }));
-  }
+        this.state = {
+            data: []
+        };
+    }
 
-  render() {
-    console.log(this.state.data);
-    return <div>test</div>;
-  }
+    public componentDidMount(): void {
+        fetch('http://localhost:5000/api/values')
+            .then((response): Promise<string[]> => response.json())
+            .then((data): void => this.setState({ data }));
+    }
+
+    public render(): JSX.Element {
+        console.log(this.state.data);
+        return <div>test</div>;
+    }
 }
 
 export default App;
