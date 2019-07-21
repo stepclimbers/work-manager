@@ -1,7 +1,10 @@
 module.exports = {
   semi: true,
-  trailingComma: 'all',
-  singleQuote: false,
+  trailingComma: 'none',
+  bracketSpacing: true,
+  jsxBracketSameLine: true,
+  singleQuote: true,
   printWidth: 80,
-  tabWidth: 2,
+  tabWidth: 4,
+  endOfLine: "crlf"
 };
