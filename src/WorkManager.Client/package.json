@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "webpack-dev-server --mode development --open"
+    "build": "npm run lint && webpack",
+    "start": "npm run lint && webpack-dev-server --mode development --open",
+    "lint": "tsc --noEmit && eslint \"./**/*.{js,ts,tsx}\"",
+    "lint:no-warnings": "npm run lint -- --quiet"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "css-loader": "^3.1.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
+    "eslint-loader": "^2.2.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.2",
     "prettier": "^1.18.2",
