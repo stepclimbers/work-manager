@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using WorkManager.Data;
+using WorkManager.Data.Models;
 
 namespace WorkManager.Api
 {
@@ -36,7 +34,12 @@ namespace WorkManager.Api
                         .AllowCredentials();
                     });
             });
+
+            services.AddDbContextPool<WorkManagerDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("WorkManagerDbConnection")));
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<WorkManagerDbContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //services.AddTransient<IAppRepository, AppRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +49,8 @@ namespace WorkManager.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseCors("AllowAll");
             app.UseMvc();
