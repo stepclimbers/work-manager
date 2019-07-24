@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkManager.Api", "WorkManager.Api\WorkManager.Api.csproj", "{8EDF5457-EB0D-46FE-8216-AC89F2D1865D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkManager.Client", "WorkManager.Client\WorkManager.Client.csproj", "{4307E42B-24C2-4A08-A295-B26CA6BF4E8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkManager.Client", "WorkManager.Client\WorkManager.Client.csproj", "{4307E42B-24C2-4A08-A295-B26CA6BF4E8F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkManager.Data", "WorkManager.Data\WorkManager.Data.csproj", "{BB557E8F-7D6B-47BE-9F9E-64F8C1A1CC84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4307E42B-24C2-4A08-A295-B26CA6BF4E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4307E42B-24C2-4A08-A295-B26CA6BF4E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4307E42B-24C2-4A08-A295-B26CA6BF4E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB557E8F-7D6B-47BE-9F9E-64F8C1A1CC84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB557E8F-7D6B-47BE-9F9E-64F8C1A1CC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB557E8F-7D6B-47BE-9F9E-64F8C1A1CC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB557E8F-7D6B-47BE-9F9E-64F8C1A1CC84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
