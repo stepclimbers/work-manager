@@ -44,6 +44,7 @@ namespace Repositories
             if (entity != null)
             {
                 this.db.Set<TEntity>().Remove(entity);
+                await this.db.SaveChangesAsync();
             }
         }
     }
