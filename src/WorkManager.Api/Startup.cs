@@ -35,9 +35,19 @@ namespace WorkManager.Api
                     });
             });
 
+            var connectionString = Configuration.GetConnectionString("WorkManagerDbConnection");
+
             services.AddDbContextPool<WorkManagerDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("WorkManagerDbConnection")));
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<WorkManagerDbContext>();
+                    options.UseSqlServer(connectionString, builder =>
+                    {
+                        builder.EnableRetryOnFailure(3);
+                        builder.MigrationsAssembly(typeof(WorkManagerDbContext).Assembly.FullName);
+                    }));
+
+            services.AddIdentity<User, UserRole>()
+                .AddEntityFrameworkStores<WorkManagerDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //services.AddTransient<IAppRepository, AppRepository>();
         }
