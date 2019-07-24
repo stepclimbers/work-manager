@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WorkManager.Data.Models;
 
 namespace WorkManager.Data
 {
-    public class WManagerDbContext : IdentityDbContext<User, UserRole, int>
+    public class WorkManagerDbContext : IdentityDbContext<User, UserRole, int>
     {
-        public WManagerDbContext(DbContextOptions<WManagerDbContext> options) : base(options)
+        public WorkManagerDbContext(DbContextOptions<WorkManagerDbContext> options) : base(options)
         {
         }
 

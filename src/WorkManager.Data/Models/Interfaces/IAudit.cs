@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace WorkManager.Data.Models
+namespace WorkManager.Data.Models.Interfaces
 {
     public interface IAudit
     {

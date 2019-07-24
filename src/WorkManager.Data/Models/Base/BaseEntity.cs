@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using WorkManager.Data.Models.Interfaces;
 
-namespace WorkManager.Data.Models
+namespace WorkManager.Data.Models.Base
 {
     public class BaseEntity<TKey> : IBaseEntity<TKey>
     {
