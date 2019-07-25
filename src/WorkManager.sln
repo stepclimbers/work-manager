@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkManager.Data", "WorkMan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkManager.Repositories", "WorkManager.Repositories\WorkManager.Repositories.csproj", "{65FB2B96-8C68-4BF8-9804-74F08D507C45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkManager.Services", "WorkManager.Services\WorkManager.Services.csproj", "{06ADAE6A-B2E4-40FC-9822-D6A09635DD23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{65FB2B96-8C68-4BF8-9804-74F08D507C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65FB2B96-8C68-4BF8-9804-74F08D507C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65FB2B96-8C68-4BF8-9804-74F08D507C45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06ADAE6A-B2E4-40FC-9822-D6A09635DD23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06ADAE6A-B2E4-40FC-9822-D6A09635DD23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06ADAE6A-B2E4-40FC-9822-D6A09635DD23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06ADAE6A-B2E4-40FC-9822-D6A09635DD23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
