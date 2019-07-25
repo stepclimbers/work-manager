@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WorkManager.Data\WorkManager.Data.csproj" />
+    <ProjectReference Include="..\WorkManager.Services\WorkManager.Services.csproj" />
   </ItemGroup>
 
 </Project>
