@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WorkManager.Data;
 using WorkManager.Data.Models;
+using Microsoft.OpenApi.Models;
 
 namespace WorkManager.Api
 {
@@ -33,6 +34,11 @@ namespace WorkManager.Api
                         .AllowAnyHeader()
                         .AllowCredentials();
                     });
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WorkManager API", Version = "v1" });
             });
 
             var connectionString = Configuration.GetConnectionString("WorkManagerDbConnection");
@@ -63,6 +69,11 @@ namespace WorkManager.Api
             app.UseAuthentication();
 
             app.UseCors("AllowAll");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WorkManager API V1");
+            });
             app.UseMvc();
         }
     }
