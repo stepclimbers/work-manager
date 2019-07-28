@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WorkManager.Services
 {
-    class UserService
+    public class UserService
     {
     }
 }

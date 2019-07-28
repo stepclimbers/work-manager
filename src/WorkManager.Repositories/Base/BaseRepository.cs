@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WorkManager.Data;
 using WorkManager.Data.Models.Base;
 
 namespace Repositories
 {
-    public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
+    public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey>
+        where TEntity : BaseEntity<TKey>
     {
         private readonly WorkManagerDbContext db;
 
@@ -48,5 +49,4 @@ namespace Repositories
             }
         }
     }
-
 }

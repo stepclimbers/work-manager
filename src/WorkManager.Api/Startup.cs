@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using WorkManager.Data;
 using WorkManager.Data.Models;
-using Microsoft.OpenApi.Models;
 
 namespace WorkManager.Api
 {
@@ -15,7 +15,7 @@ namespace WorkManager.Api
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -25,7 +25,8 @@ namespace WorkManager.Api
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll",
+                options.AddPolicy(
+                    "AllowAll",
                     builder =>
                     {
                         builder
@@ -41,7 +42,7 @@ namespace WorkManager.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WorkManager API", Version = "v1" });
             });
 
-            var connectionString = Configuration.GetConnectionString("WorkManagerDbConnection");
+            var connectionString = this.Configuration.GetConnectionString("WorkManagerDbConnection");
 
             services.AddDbContextPool<WorkManagerDbContext>(options =>
                     options.UseSqlServer(connectionString, builder =>
@@ -55,7 +56,8 @@ namespace WorkManager.Api
                 .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            //services.AddTransient<IAppRepository, AppRepository>();
+
+            // services.AddTransient<IAppRepository, AppRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
