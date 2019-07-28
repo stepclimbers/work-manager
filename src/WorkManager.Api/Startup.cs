@@ -54,6 +54,15 @@ namespace WorkManager.Api
             services.AddIdentity<User, UserRole>()
                 .AddEntityFrameworkStores<WorkManagerDbContext>()
                 .AddDefaultTokenProviders();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 0;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -67,8 +76,6 @@ namespace WorkManager.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseAuthentication();
 
             app.UseCors("AllowAll");
             app.UseSwagger();

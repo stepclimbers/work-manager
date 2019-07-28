@@ -1,7 +1,17 @@
-﻿namespace WorkManager.Services
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using WorkManager.Core.ViewModels;
+using WorkManager.Data.Models;
+
+namespace WorkManager.Services
 {
     public interface IUserService
     {
-        // we need infrastructure project(view models) to type proper types
+        IEnumerable<User> AllUsers();
+
+        Task<IdentityResult> RegisterUserAsync(RegisterModel model);
+
+        // Task<TokenResponse> AuthenticateUserAsync(CredentialsModel model);
     }
 }
