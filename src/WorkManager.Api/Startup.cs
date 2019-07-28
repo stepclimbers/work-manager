@@ -1,13 +1,19 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
+using WorkManager.Core;
 using WorkManager.Data;
 using WorkManager.Data.Models;
+using WorkManager.Services;
 
 namespace WorkManager.Api
 {
@@ -66,7 +72,38 @@ namespace WorkManager.Api
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // services.AddTransient<IAppRepository, AppRepository>();
+            var jwtSettings = this.Configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
+            var secret = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+            services.Configure<JwtSettings>(this.Configuration.GetSection(nameof(JwtSettings)));
+
+            services.AddScoped<IUserService, UserService>();
+
+            services
+                .AddAuthentication(configureOptions =>
+                {
+                    configureOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    configureOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(configureOptions =>
+                {
+                    configureOptions.RequireHttpsMetadata = false;
+                    configureOptions.SaveToken = true;
+                    configureOptions.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                        ValidIssuer = jwtSettings.Authority,
+                        ValidAudience = jwtSettings.Audience,
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver =
+                    new CamelCasePropertyNamesContractResolver();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +113,8 @@ namespace WorkManager.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseCors("AllowAll");
             app.UseSwagger();
