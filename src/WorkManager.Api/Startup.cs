@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using System.Text;
 using WorkManager.Core;
 using WorkManager.Services;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace WorkManager.Api
 {
@@ -67,7 +69,37 @@ namespace WorkManager.Api
                 options.Password.RequiredUniqueChars = 0;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
+            var jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            var secret = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+            services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddAuthentication(configureOptions =>
+            {
+                configureOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                configureOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(configureOptions =>
+            {
+                configureOptions.RequireHttpsMetadata = false;
+                configureOptions.SaveToken = true;
+                configureOptions.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                    ValidIssuer = jwtSettings.Authority,
+                    ValidAudience = jwtSettings.Audience,
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver =
+                    new CamelCasePropertyNamesContractResolver();
+            }); ;
+            //services.AddTransient<IAppRepository, AppRepository>();
         }
 
 
@@ -78,6 +110,8 @@ namespace WorkManager.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseCors("AllowAll");
             app.UseSwagger();

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WorkManager.Core.Exceptions;
 using WorkManager.Core.ViewModels;
+using WorkManager.Core.ViewModels.Authorize;
 using WorkManager.Services;
 
 namespace WorkManager.Api.Controllers
@@ -37,6 +40,27 @@ namespace WorkManager.Api.Controllers
             }
 
             this.AddErrors(result);
+
+            return this.BadRequest(this.ModelState);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Authenticate([FromBody]CredentialsModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                try
+                {
+                    var result = await this.userService.AuthenticateUserAsync(model);
+
+                    return this.Ok(result);
+                }
+                catch (UserAuthenticationException)
+                {
+                    return this.Unauthorized();
+                }
+            }
 
             return this.BadRequest(this.ModelState);
         }
