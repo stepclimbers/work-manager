@@ -18,7 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0FE5094-8C74-4950-8080-5AE172474B23}"
 	ProjectSection(SolutionItems) = preProject
 		stylecop.json = stylecop.json
-		StyleCop.ruleset = StyleCop.ruleset
+		WorkManager.ruleset = WorkManager.ruleset
 	EndProjectSection
 EndProject
 Global
