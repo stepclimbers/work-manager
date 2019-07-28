@@ -60,23 +60,22 @@ namespace WorkManager.Api
             services.AddIdentity<User, UserRole>()
                 .AddEntityFrameworkStores<WorkManagerDbContext>()
                 .AddDefaultTokenProviders();
+
             services.Configure<IdentityOptions>(options =>
             {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 3;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 0;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            var jwtSettings = this.Configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
-            var secret = Encoding.ASCII.GetBytes(jwtSettings.Secret);
             services.Configure<JwtSettings>(this.Configuration.GetSection(nameof(JwtSettings)));
 
             services.AddScoped<IUserService, UserService>();
+
+            var jwtSettings = this.Configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
 
             services
                 .AddAuthentication(configureOptions =>
@@ -99,11 +98,13 @@ namespace WorkManager.Api
                     };
                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options =>
-            {
-                options.SerializerSettings.ContractResolver =
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver =
                     new CamelCasePropertyNamesContractResolver();
-            });
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

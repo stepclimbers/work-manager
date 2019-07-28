@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WorkManager.Core.Exceptions;
@@ -13,9 +10,7 @@ using WorkManager.Services;
 
 namespace WorkManager.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : CustomBaseController
     {
         private readonly IUserService userService;
 
@@ -27,13 +22,7 @@ namespace WorkManager.Api.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var result = await this.userService.RegisterUserAsync(model);
-
             if (result.Succeeded)
             {
                 return this.Ok();
@@ -48,21 +37,15 @@ namespace WorkManager.Api.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Authenticate([FromBody]CredentialsModel model)
         {
-            if (this.ModelState.IsValid)
+            try
             {
-                try
-                {
-                    var result = await this.userService.AuthenticateUserAsync(model);
-
-                    return this.Ok(result);
-                }
-                catch (UserAuthenticationException)
-                {
-                    return this.Unauthorized();
-                }
+                var result = await this.userService.AuthenticateUserAsync(model);
+                return this.Ok(result);
             }
-
-            return this.BadRequest(this.ModelState);
+            catch (UserAuthenticationException)
+            {
+                return this.Unauthorized();
+            }
         }
 
         private void AddErrors(IdentityResult result)
