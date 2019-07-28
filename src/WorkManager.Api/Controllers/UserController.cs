@@ -13,9 +13,7 @@ using WorkManager.Services;
 
 namespace WorkManager.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : CustomBaseController
     {
         private readonly IUserService userService;
 
