@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Repositories
 {
-    public interface IBaseRepository<TEntity, TKey> where TEntity : class
+    public interface IBaseRepository<TEntity, TKey>
+        where TEntity : class
     {
         IEnumerable<TEntity> GetAll();
 
@@ -16,7 +15,5 @@ namespace Repositories
         Task Update(TEntity entity);
 
         Task Delete(TKey id);
-
-        //Task SaveChangesAsync();
     }
 }

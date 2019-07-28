@@ -7,7 +7,8 @@ namespace WorkManager.Data
 {
     public class WorkManagerDbContext : IdentityDbContext<User, UserRole, int>
     {
-        public WorkManagerDbContext(DbContextOptions<WorkManagerDbContext> options) : base(options)
+        public WorkManagerDbContext(DbContextOptions<WorkManagerDbContext> options)
+            : base(options)
         {
         }
 

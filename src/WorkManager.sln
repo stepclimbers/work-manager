@@ -13,7 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkManager.Repositories", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkManager.Services", "WorkManager.Services\WorkManager.Services.csproj", "{06ADAE6A-B2E4-40FC-9822-D6A09635DD23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkManager.Core", "WorkManager.Core\WorkManager.Core.csproj", "{55ACBE74-676D-4991-B75D-B51ED894A75E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkManager.Core", "WorkManager.Core\WorkManager.Core.csproj", "{55ACBE74-676D-4991-B75D-B51ED894A75E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0FE5094-8C74-4950-8080-5AE172474B23}"
+	ProjectSection(SolutionItems) = preProject
+		stylecop.json = stylecop.json
+		WorkManager.ruleset = WorkManager.ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

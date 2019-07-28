@@ -74,11 +74,11 @@ namespace WorkManager.Api.Controllers
                     continue;
                 }
 
-                if (error.Code.Contains("Email"))
+                if (error.Code.Contains("Email", StringComparison.InvariantCulture))
                 {
                     this.ModelState.AddModelError("Email", error.Description);
                 }
-                else if (error.Code.Contains("Password"))
+                else if (error.Code.Contains("Password", StringComparison.InvariantCulture))
                 {
                     this.ModelState.AddModelError("Password", error.Description);
                 }

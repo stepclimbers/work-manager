@@ -2,9 +2,19 @@
 
 namespace WorkManager.Core.Exceptions
 {
-    public class UserAuthenticationException : ApplicationException
+    public class UserAuthenticationException : Exception
     {
-        public UserAuthenticationException(string message) : base(message)
+        public UserAuthenticationException()
+        {
+        }
+
+        public UserAuthenticationException(string message)
+            : base(message)
+        {
+        }
+
+        public UserAuthenticationException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }
