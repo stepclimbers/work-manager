@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using WorkManager.Api.Extensions;
 
 namespace WorkManager.Api
 {
@@ -7,7 +9,7 @@ namespace WorkManager.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Migrate().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
