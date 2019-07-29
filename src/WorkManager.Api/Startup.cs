@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
 using WorkManager.Core;
 using WorkManager.Data;
 using WorkManager.Data.Models;
@@ -45,7 +45,7 @@ namespace WorkManager.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WorkManager API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "WorkManager API", Version = "v1" });
             });
 
             var connectionString = this.Configuration.GetConnectionString("WorkManagerDbConnection");
@@ -118,11 +118,16 @@ namespace WorkManager.Api
             app.UseAuthentication();
 
             app.UseCors("AllowAll");
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+
+            if (env.IsDevelopment())
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WorkManager API V1");
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "WorkManager API V1");
+                });
+            }
+
             app.UseMvc();
         }
     }
