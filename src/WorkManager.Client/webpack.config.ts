@@ -18,6 +18,10 @@ const config: webpack.Configuration = {
         // libraryTarget: "umd"
     },
     watch: true,
+    devServer: {
+        hot: true,
+        open: true
+    },
     optimization: {
         removeAvailableModules: false,
         removeEmptyChunks: false,
@@ -61,18 +65,7 @@ const config: webpack.Configuration = {
         ]
     },
     resolve: {
-        extensions: [
-            '*',
-            '.mjs',
-            '.js',
-            '.jsx',
-            '.ts',
-            '.tsx',
-            '.css',
-            'png',
-            'jpg',
-            'gif'
-        ]
+        extensions: ['*', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.css', 'png', 'jpg', 'gif']
     }
     // externals: {
     //   react: "React",
