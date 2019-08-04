@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -105,6 +106,36 @@ namespace WorkManager.Api
                     options.SerializerSettings.ContractResolver =
                     new CamelCasePropertyNamesContractResolver();
                 });
+
+            services.PostConfigure<ApiBehaviorOptions>(options =>
+            {
+                var builtInFactory = options.InvalidModelStateResponseFactory;
+
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var loggerFactory = context.HttpContext.RequestServices
+                        .GetRequiredService<ILoggerFactory>();
+
+                    var logger = loggerFactory.CreateLogger(context.ActionDescriptor.DisplayName);
+                    logger.LogWarning($"Request submitted with invalid model state.");
+
+                    foreach (var modelStateEntry in context.ModelState)
+                    {
+                        StringBuilder builder = new StringBuilder();
+                        builder.AppendLine($"{modelStateEntry.Key} - ");
+
+                        var errors = modelStateEntry.Value.Errors;
+                        foreach (var error in errors)
+                        {
+                            builder.AppendLine(error.ErrorMessage);
+                        }
+
+                        logger.LogWarning(builder.ToString());
+                    }
+
+                    return builtInFactory(context);
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
