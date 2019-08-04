@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using WorkManager.Core.Exceptions;
 using WorkManager.Core.ViewModels;
 using WorkManager.Core.ViewModels.Authorize;
@@ -15,12 +15,10 @@ namespace WorkManager.Api.Controllers
     public class UserController : CustomBaseController
     {
         private readonly IUserService userService;
-        private readonly ILogger logger;
 
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        public UserController(IUserService userService)
         {
             this.userService = userService;
-            this.logger = logger;
         }
 
         [HttpPost("[action]")]
@@ -33,12 +31,12 @@ namespace WorkManager.Api.Controllers
             var result = await this.userService.RegisterUserAsync(model);
             if (result.Succeeded)
             {
-                this.logger.LogInformation($"User {model.Email} has registered.");
+                Log.Information($"User {model.Email} has registered.");
                 return this.Ok();
             }
 
             this.AddErrors(result);
-            this.logger.LogWarning($"User {model.Email} has failed registration: ", this.ModelState);
+            Log.Warning($"User {model.Email} has failed registration: ", this.ModelState);
 
             return this.BadRequest(this.ModelState);
         }
@@ -54,12 +52,12 @@ namespace WorkManager.Api.Controllers
             {
                 var result = await this.userService.AuthenticateUserAsync(model);
 
-                this.logger.LogInformation($"User {model.Email} has been authenticated.");
+                Log.Information($"User {model.Email} has been authenticated.");
                 return this.Ok(result);
             }
             catch (UserAuthenticationException)
             {
-                this.logger.LogInformation($"User {model.Email} has failed authentication.");
+                Log.Warning($"User {model.Email} has failed authentication.");
                 return this.Unauthorized();
             }
         }

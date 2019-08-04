@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using WorkManager.Core;
 using WorkManager.Data;
@@ -113,11 +114,7 @@ namespace WorkManager.Api
 
                 options.InvalidModelStateResponseFactory = context =>
                 {
-                    var loggerFactory = context.HttpContext.RequestServices
-                        .GetRequiredService<ILoggerFactory>();
-
-                    var logger = loggerFactory.CreateLogger(context.ActionDescriptor.DisplayName);
-                    logger.LogWarning($"Request submitted with invalid model state.");
+                    Log.Warning($"Request submitted with invalid model state.");
 
                     foreach (var modelStateEntry in context.ModelState)
                     {
@@ -130,7 +127,7 @@ namespace WorkManager.Api
                             builder.AppendLine(error.ErrorMessage);
                         }
 
-                        logger.LogWarning(builder.ToString());
+                        Log.Warning(builder.ToString());
                     }
 
                     return builtInFactory(context);

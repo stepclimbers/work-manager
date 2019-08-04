@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace WorkManager.Api
 {
@@ -16,10 +17,11 @@ namespace WorkManager.Api
                 .UseStartup<Startup>()
                 .ConfigureLogging((hostingContext, logging) =>
                 {
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                    logging.AddDebug();
-                    logging.AddEventSourceLogger();
+                    logging.ClearProviders();
+                })
+                .UseSerilog((hostingContext, loggerConfiguration) =>
+                {
+                    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
                 });
     }
 }
