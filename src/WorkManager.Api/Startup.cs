@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using WorkManager.Core;
 using WorkManager.Core.Settings;
 using WorkManager.Data;
 using WorkManager.Data.Models;
@@ -137,6 +138,8 @@ namespace WorkManager.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.AddExceptionMiddleware();
+
             app.UseAuthentication();
 
             app.UseCors("AllowAll");
