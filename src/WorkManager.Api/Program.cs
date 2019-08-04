@@ -46,8 +46,9 @@ namespace WorkManager.Api
             config.ThrowExceptions = logglySettings.ThrowExceptions;
 
             // Define Tags sent to Loggly
-            config.TagConfig.Tags.AddRange(new ITag[]{
-                new ApplicationNameTag {Formatter = "Application-{0}"},
+            config.TagConfig.Tags.AddRange(new ITag[]
+            {
+                new ApplicationNameTag { Formatter = "Application-{0}" },
                 new HostnameTag { Formatter = "Host-{0}" }
             });
         }
