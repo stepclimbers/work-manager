@@ -1,4 +1,4 @@
-﻿namespace WorkManager.Core
+﻿namespace WorkManager.Core.Settings
 {
     public class JwtSettings
     {
