@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using WorkManager.Core.Middlewares;
 
-namespace WorkManager.Core
+namespace WorkManager.Core.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

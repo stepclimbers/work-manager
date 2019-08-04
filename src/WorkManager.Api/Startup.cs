@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
-using WorkManager.Core;
+using WorkManager.Core.Extensions;
 using WorkManager.Core.Settings;
 using WorkManager.Data;
 using WorkManager.Data.Models;
