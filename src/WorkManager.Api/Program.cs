@@ -2,9 +2,11 @@
 using Loggly.Config;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using WorkManager.Api.Extensions;
 using WorkManager.Core.Settings;
 
 namespace WorkManager.Api
@@ -13,7 +15,7 @@ namespace WorkManager.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Migrate().SeedDatabase().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
