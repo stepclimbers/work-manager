@@ -22,14 +22,6 @@ namespace WorkManager.Data
             builder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
             builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
             builder.Entity<UserRole>().ToTable("Roles");
-
-            var roles = new UserRole[]
-            {
-                new UserRole { Id = 1, Name = "Admin", NormalizedName = "Admin".ToUpper() },
-                new UserRole { Id = 2, Name = "SuperUser", NormalizedName = "SuperUser".ToUpper(culture: CultureInfo.InvariantCulture) },
-                new UserRole { Id = 3, Name = "User", NormalizedName = "User".ToUpper(culture: CultureInfo.InvariantCulture) }
-            };
-            builder.Entity<UserRole>().HasData(roles);
         }
     }
 }
