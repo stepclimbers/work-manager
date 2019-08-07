@@ -9,7 +9,7 @@ namespace WorkManager.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Migrate().Run();
+            CreateWebHostBuilder(args).Build().Migrate().SeedDatabase().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
