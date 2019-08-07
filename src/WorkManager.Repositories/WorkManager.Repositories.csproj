@@ -20,13 +20,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\WorkManager.Data\WorkManager.Data.csproj" />
-  </ItemGroup>
   
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\WorkManager.Core\WorkManager.Core.csproj" />
   </ItemGroup>
 
 </Project>

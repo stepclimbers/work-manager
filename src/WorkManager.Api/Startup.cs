@@ -9,9 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
-using WorkManager.Core;
+using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
+using WorkManager.Core.Extensions;
+using WorkManager.Core.Settings;
 using WorkManager.Data;
 using WorkManager.Data.Models;
 using WorkManager.Services;
@@ -46,7 +48,7 @@ namespace WorkManager.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WorkManager API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "WorkManager API", Version = "v1" });
             });
 
             var connectionString = this.Configuration.GetConnectionString("WorkManagerDbConnection");
@@ -106,24 +108,52 @@ namespace WorkManager.Api
                     options.SerializerSettings.ContractResolver =
                     new CamelCasePropertyNamesContractResolver();
                 });
+
+            services.PostConfigure<ApiBehaviorOptions>(options =>
+            {
+                var builtInFactory = options.InvalidModelStateResponseFactory;
+
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    Log.Warning($"Request submitted with invalid model state.");
+
+                    foreach (var modelStateEntry in context.ModelState)
+                    {
+                        StringBuilder builder = new StringBuilder();
+                        builder.AppendLine($"{modelStateEntry.Key} - ");
+
+                        var errors = modelStateEntry.Value.Errors;
+                        foreach (var error in errors)
+                        {
+                            builder.AppendLine(error.ErrorMessage);
+                        }
+
+                        Log.Warning(builder.ToString());
+                    }
+
+                    return builtInFactory(context);
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.AddExceptionMiddleware();
 
             app.UseAuthentication();
 
             app.UseCors("AllowAll");
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+
+            if (env.IsDevelopment())
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WorkManager API V1");
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "WorkManager API V1");
+                });
+            }
+
             app.UseMvc();
         }
     }
